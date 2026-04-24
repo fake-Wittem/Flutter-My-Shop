@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:my_shop/components/Home/BestSelling.dart';
 import 'package:my_shop/components/Home/Carousel.dart';
+import 'package:my_shop/components/Home/Category.dart';
+import 'package:my_shop/components/Home/ProductList.dart';
+import 'package:my_shop/components/Home/Recommend.dart';
 
 class HomeView extends StatefulWidget {
   HomeView({Key? key}) : super(key: key);
@@ -13,6 +17,25 @@ class _HomeViewState extends State<HomeView> {
     return [
       SliverToBoxAdapter(child: Carousel()), // 轮播图
       SliverToBoxAdapter(child: SizedBox(height: 10)),
+      SliverToBoxAdapter(child: Category()), // 分类
+      SliverToBoxAdapter(child: SizedBox(height: 10)),
+      SliverToBoxAdapter(child: Recommend()), // 推荐
+      SliverToBoxAdapter(child: SizedBox(height: 10)),
+      SliverToBoxAdapter(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          child: Flex(
+            direction: Axis.horizontal,
+            children: [
+              Expanded(child: BestSelling()),
+              SizedBox(width: 10),
+              Expanded(child: BestSelling()),
+            ],
+          ),
+        ),
+      ), // 爆款
+      SliverToBoxAdapter(child: SizedBox(height: 10)),
+      ProductList(), // 无线滚动商品列表
     ];
   }
 

@@ -1,3 +1,4 @@
+/* 爆款 */
 import 'package:flutter/material.dart';
 
 class BestSelling extends StatefulWidget {
@@ -10,6 +11,11 @@ class BestSelling extends StatefulWidget {
 class _BestSellingState extends State<BestSelling> {
   @override
   Widget build(BuildContext context) {
-    return Container(child: null);
+    return Container(
+      height: 200,
+      color: Colors.blue,
+      alignment: Alignment.center,
+      child: Text('爆款推荐', style: TextStyle(color: Colors.white)),
+    );
   }
 }

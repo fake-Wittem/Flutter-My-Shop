@@ -1,3 +1,4 @@
+/* 推荐 */
 import 'package:flutter/material.dart';
 
 class Recommend extends StatefulWidget {
@@ -10,6 +11,14 @@ class Recommend extends StatefulWidget {
 class _RecommendState extends State<Recommend> {
   @override
   Widget build(BuildContext context) {
-    return Container(child: null);
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      child: Container(
+        height: 300,
+        alignment: Alignment.center,
+        color: Colors.blue,
+        child: Text('推荐', style: TextStyle(color: Colors.white)),
+      ),
+    );
   }
 }
