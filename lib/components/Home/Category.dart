@@ -28,7 +28,7 @@ class _CategoryState extends State<Category> {
             margin: EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
               color: const Color.fromARGB(255, 224, 228, 231),
-              borderRadius: BorderRadius.circular(40),
+              borderRadius: BorderRadius.circular(20),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

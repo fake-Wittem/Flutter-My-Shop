@@ -37,6 +37,8 @@ class _HomeViewState extends State<HomeView> {
     title: '',
     subTypes: [],
   );
+  // 推荐列表
+  List<GoodDetailItem> _recommendList = [];
 
   // 整页所有的滚动子组件
   List<Widget> _getScrollChildren() {
@@ -69,7 +71,22 @@ class _HomeViewState extends State<HomeView> {
         ),
       ), // 爆款&一站式买全
       SliverToBoxAdapter(child: SizedBox(height: 10)),
-      ProductList(), // 无线滚动商品列表
+      SliverToBoxAdapter(
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 4),
+          color: const Color.fromARGB(255, 211, 211, 211),
+          alignment: Alignment.center,
+          child: Text(
+            '猜您喜欢',
+            style: TextStyle(
+              fontSize: 11,
+              color: const Color.fromARGB(255, 137, 137, 137),
+            ),
+          ),
+        ),
+      ),
+      SliverToBoxAdapter(child: SizedBox(height: 10)),
+      ProductList(recommendList: _recommendList), // 无线滚动商品列表
     ];
   }
 
@@ -103,6 +120,12 @@ class _HomeViewState extends State<HomeView> {
     setState(() {});
   }
 
+  // 获取推荐列表
+  void _getRecommendList() async {
+    _recommendList = await getRecommendListAPI({'limit': 10});
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
@@ -111,6 +134,7 @@ class _HomeViewState extends State<HomeView> {
     _getSpecialOfferList();
     _getInVogueList();
     _getOneStopList();
+    _getRecommendList();
   }
 
   @override
