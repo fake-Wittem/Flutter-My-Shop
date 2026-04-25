@@ -23,7 +23,24 @@ Future<List<CategoryItem>> getCategoryListAPI() async {
 
 // 获取特惠推荐
 Future<SpecialOfferResult> getSpecialOfferListAPI() async {
+  // 返回请求
   return SpecialOfferResult.formJSON(
     await dioRequest.get(HttpConstants.PRODUCT_LIST),
+  );
+}
+
+// 热榜推荐
+Future<SpecialOfferResult> getInVogueListAPI() async {
+  // 返回请求
+  return SpecialOfferResult.formJSON(
+    await dioRequest.get(HttpConstants.IN_VOGUE_LIST),
+  );
+}
+
+// 一站式买全
+Future<SpecialOfferResult> getOneStopListAPI() async {
+  // 返回请求
+  return SpecialOfferResult.formJSON(
+    await dioRequest.get(HttpConstants.ONE_STOP_LIST),
   );
 }

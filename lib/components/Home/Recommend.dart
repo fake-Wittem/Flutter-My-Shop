@@ -23,25 +23,14 @@ class _RecommendState extends State<Recommend> {
 
   // 生成顶部标题
   Widget _buildHeader() {
-    return Row(
-      children: [
-        Text(
-          '特惠推荐',
-          style: TextStyle(
-            color: const Color.fromARGB(255, 80, 7, 2),
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        SizedBox(width: 10),
-        Text(
-          '精选省攻略',
-          style: TextStyle(
-            color: const Color.fromARGB(255, 116, 56, 51),
-            fontSize: 12,
-          ),
-        ),
-      ],
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Image.asset(
+        'lib/assets/home_cmd_title.png',
+        width: 140,
+        height: 20,
+        fit: BoxFit.fill,
+      ),
     );
   }
 
@@ -110,7 +99,6 @@ class _RecommendState extends State<Recommend> {
         padding: EdgeInsets.all(12),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: Colors.blue,
           borderRadius: BorderRadius.circular(12),
           image: DecorationImage(
             image: AssetImage('lib/assets/home_cmd_sm.png'),

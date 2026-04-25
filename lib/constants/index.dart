@@ -9,5 +9,7 @@ class GlobalConstants {
 class HttpConstants {
   static const String BANNER_LIST = "/home/banner"; // 轮播图
   static const String CATEGORY_LIST = "/home/category/head"; // 分类列表
-  static const String PRODUCT_LIST = "/hot/inVogue"; // 特惠推荐
+  static const String PRODUCT_LIST = "/hot/preference"; // 特惠推荐
+  static const String IN_VOGUE_LIST = "/hot/inVogue"; // 热榜推荐
+  static const String ONE_STOP_LIST = "/hot/oneStop"; // 一站式买全
 }

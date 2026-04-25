@@ -25,6 +25,18 @@ class _HomeViewState extends State<HomeView> {
     title: '',
     subTypes: [],
   );
+  // 热榜推荐
+  SpecialOfferResult _inVogueResult = SpecialOfferResult(
+    id: '',
+    title: '',
+    subTypes: [],
+  );
+  // 一站式推荐
+  SpecialOfferResult _oneStopResult = SpecialOfferResult(
+    id: '',
+    title: '',
+    subTypes: [],
+  );
 
   // 整页所有的滚动子组件
   List<Widget> _getScrollChildren() {
@@ -45,24 +57,20 @@ class _HomeViewState extends State<HomeView> {
           child: Flex(
             direction: Axis.horizontal,
             children: [
-              Expanded(child: BestSelling()),
+              Expanded(
+                child: BestSelling(result: _inVogueResult, type: 'hot'),
+              ), // 爆款推荐
               SizedBox(width: 10),
-              Expanded(child: BestSelling()),
+              Expanded(
+                child: BestSelling(result: _oneStopResult, type: 'step'),
+              ), //一站式买全
             ],
           ),
         ),
-      ), // 爆款
+      ), // 爆款&一站式买全
       SliverToBoxAdapter(child: SizedBox(height: 10)),
       ProductList(), // 无线滚动商品列表
     ];
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _getBannerList();
-    _getCategoryList();
-    _getSpecialOfferList();
   }
 
   // 获取轮播图
@@ -81,6 +89,28 @@ class _HomeViewState extends State<HomeView> {
   void _getSpecialOfferList() async {
     _specialOfferResult = await getSpecialOfferListAPI();
     setState(() {});
+  }
+
+  // 获取热榜推荐列表
+  void _getInVogueList() async {
+    _inVogueResult = await getInVogueListAPI();
+    setState(() {});
+  }
+
+  // 获取一站式推荐列表
+  void _getOneStopList() async {
+    _oneStopResult = await getOneStopListAPI();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getBannerList();
+    _getCategoryList();
+    _getSpecialOfferList();
+    _getInVogueList();
+    _getOneStopList();
   }
 
   @override
