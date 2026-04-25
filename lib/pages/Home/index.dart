@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_shop/api/home.dart';
 import 'package:my_shop/components/Home/BestSelling.dart';
 import 'package:my_shop/components/Home/Carousel.dart';
 import 'package:my_shop/components/Home/Category.dart';
@@ -14,21 +15,10 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final List<BannerlItem> _bannerList = [
-    BannerlItem(
-      id: '1',
-      imgUrl: 'https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/meituan/1.jpg',
-    ),
-    BannerlItem(
-      id: '2',
-      imgUrl: 'https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/meituan/2.jpg',
-    ),
-    BannerlItem(
-      id: '3',
-      imgUrl: 'https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/meituan/3.jpg',
-    ),
-  ];
+  // 轮播图列表
+  List<BannerlItem> _bannerList = [];
 
+  // 整页所有的滚动子组件
   List<Widget> _getScrollChildren() {
     return [
       SliverToBoxAdapter(child: Carousel(bannerList: _bannerList)), // 轮播图
@@ -53,6 +43,18 @@ class _HomeViewState extends State<HomeView> {
       SliverToBoxAdapter(child: SizedBox(height: 10)),
       ProductList(), // 无线滚动商品列表
     ];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getBannerList();
+  }
+
+  // 获取轮播图
+  void _getBannerList() async {
+    _bannerList = await getBannerListAPI();
+    setState(() {});
   }
 
   @override
