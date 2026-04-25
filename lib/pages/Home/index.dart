@@ -17,15 +17,27 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   // 轮播图列表
   List<BannerlItem> _bannerList = [];
+  // 分类列表
+  List<CategoryItem> _categoryItemList = [];
+  // 特惠推荐
+  SpecialOfferResult _specialOfferResult = SpecialOfferResult(
+    id: '',
+    title: '',
+    subTypes: [],
+  );
 
   // 整页所有的滚动子组件
   List<Widget> _getScrollChildren() {
     return [
       SliverToBoxAdapter(child: Carousel(bannerList: _bannerList)), // 轮播图
       SliverToBoxAdapter(child: SizedBox(height: 10)),
-      SliverToBoxAdapter(child: Category()), // 分类
+      SliverToBoxAdapter(
+        child: Category(categoryList: _categoryItemList),
+      ), // 分类
       SliverToBoxAdapter(child: SizedBox(height: 10)),
-      SliverToBoxAdapter(child: Recommend()), // 推荐
+      SliverToBoxAdapter(
+        child: Recommend(specialOfferResult: _specialOfferResult),
+      ), // 推荐
       SliverToBoxAdapter(child: SizedBox(height: 10)),
       SliverToBoxAdapter(
         child: Padding(
@@ -49,11 +61,25 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     _getBannerList();
+    _getCategoryList();
+    _getSpecialOfferList();
   }
 
   // 获取轮播图
   void _getBannerList() async {
     _bannerList = await getBannerListAPI();
+    setState(() {});
+  }
+
+  // 获取分类列表
+  void _getCategoryList() async {
+    _categoryItemList = await getCategoryListAPI();
+    setState(() {});
+  }
+
+  // 获取特惠推荐
+  void _getSpecialOfferList() async {
+    _specialOfferResult = await getSpecialOfferListAPI();
     setState(() {});
   }
 
