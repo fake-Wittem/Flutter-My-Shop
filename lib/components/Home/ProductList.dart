@@ -18,6 +18,7 @@ class _ProductListState extends State<ProductList> {
         mainAxisSpacing: 10, // 主轴间隙
         crossAxisSpacing: 10, // 交叉轴间隙
       ),
+      itemCount: 100,
       itemBuilder: (BuildContext context, int index) {
         return Container(
           color: Colors.blue,

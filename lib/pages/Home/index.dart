@@ -4,6 +4,7 @@ import 'package:my_shop/components/Home/Carousel.dart';
 import 'package:my_shop/components/Home/Category.dart';
 import 'package:my_shop/components/Home/ProductList.dart';
 import 'package:my_shop/components/Home/Recommend.dart';
+import 'package:my_shop/viewmodels/home.dart';
 
 class HomeView extends StatefulWidget {
   HomeView({Key? key}) : super(key: key);
@@ -13,9 +14,24 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  final List<BannerlItem> _bannerList = [
+    BannerlItem(
+      id: '1',
+      imgUrl: 'https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/meituan/1.jpg',
+    ),
+    BannerlItem(
+      id: '2',
+      imgUrl: 'https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/meituan/2.jpg',
+    ),
+    BannerlItem(
+      id: '3',
+      imgUrl: 'https://yjy-teach-oss.oss-cn-beijing.aliyuncs.com/meituan/3.jpg',
+    ),
+  ];
+
   List<Widget> _getScrollChildren() {
     return [
-      SliverToBoxAdapter(child: Carousel()), // 轮播图
+      SliverToBoxAdapter(child: Carousel(bannerList: _bannerList)), // 轮播图
       SliverToBoxAdapter(child: SizedBox(height: 10)),
       SliverToBoxAdapter(child: Category()), // 分类
       SliverToBoxAdapter(child: SizedBox(height: 10)),
