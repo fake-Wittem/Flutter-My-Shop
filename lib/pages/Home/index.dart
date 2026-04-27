@@ -75,10 +75,10 @@ class _HomeViewState extends State<HomeView> {
       SliverToBoxAdapter(
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 4),
-          color: const Color.fromARGB(255, 211, 211, 211),
+          color: const Color.fromARGB(255, 229, 229, 229),
           alignment: Alignment.center,
           child: Text(
-            '猜您喜欢',
+            '推荐商品',
             style: TextStyle(
               fontSize: 11,
               color: const Color.fromARGB(255, 137, 137, 137),

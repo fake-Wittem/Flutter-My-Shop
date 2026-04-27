@@ -13,4 +13,5 @@ class HttpConstants {
   static const String IN_VOGUE_LIST = "/hot/inVogue"; // 热榜推荐
   static const String ONE_STOP_LIST = "/hot/oneStop"; // 一站式买全
   static const String RECOMMEND_LIST = "/home/recommend"; // 推荐列表
+  static const String USER_LIKE_LIST = "/home/goods/guessLike"; // 猜你喜欢
 }

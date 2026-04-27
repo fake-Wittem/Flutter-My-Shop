@@ -156,3 +156,30 @@ class GoodDetailItem extends GoodsItem {
     );
   }
 }
+
+// 猜你喜欢列表
+class GoodsDetailItems {
+  int counts;
+  int pageSize;
+  int pages;
+  int page;
+  List<GoodDetailItem> items;
+  GoodsDetailItems({
+    required this.counts,
+    required this.pageSize,
+    required this.pages,
+    required this.page,
+    required this.items,
+  });
+  factory GoodsDetailItems.formJSON(Map<String, dynamic> json) {
+    return GoodsDetailItems(
+      counts: json['counts'] ?? 0,
+      pageSize: json['pageSize'] ?? 0,
+      pages: json['pages'] ?? 0,
+      page: json['page'] ?? 0,
+      items: (json['items'] as List)
+          .map((item) => GoodDetailItem.formJSON(item as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
