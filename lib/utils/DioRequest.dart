@@ -47,7 +47,12 @@ class DioRequest {
           }
         },
         onError: (error, handler) {
-          handler.reject(error);
+          handler.reject(
+            DioException(
+              requestOptions: error.requestOptions,
+              message: error.response?.data['msg'] ?? '',
+            ),
+          );
         },
       ),
     );
@@ -56,6 +61,12 @@ class DioRequest {
   // GET方法
   Future<dynamic> get(String url, {Map<String, dynamic>? params}) async {
     final res = await _dio.get(url, queryParameters: params);
+    return res.data;
+  }
+
+  // POST方法
+  Future<dynamic> post(String url, {Map<String, dynamic>? data}) async {
+    final res = await _dio.post(url, data: data);
     return res.data;
   }
 }
