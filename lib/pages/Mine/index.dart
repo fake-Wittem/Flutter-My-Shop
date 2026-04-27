@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:my_shop/api/mine.dart';
 import 'package:my_shop/components/Home/ProductList.dart';
 import 'package:my_shop/components/Mine/UserLike.dart';
+import 'package:my_shop/stores/UserController.dart';
 import 'package:my_shop/viewmodels/home.dart';
 
 class MineView extends StatefulWidget {
@@ -12,6 +14,8 @@ class MineView extends StatefulWidget {
 }
 
 class _MineViewState extends State<MineView> {
+  final UserController _userController = Get.put(UserController());
+
   Widget _buildHeader() {
     return Container(
       decoration: BoxDecoration(
@@ -22,32 +26,43 @@ class _MineViewState extends State<MineView> {
         ),
       ),
       padding: const EdgeInsets.only(left: 20, right: 40, top: 80, bottom: 20),
-      child: GestureDetector(
-        onTap: () {
-          Navigator.pushNamed(context, '/login');
-        },
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 26,
-              backgroundImage: const AssetImage('lib/assets/goods_avatar.png'),
-              backgroundColor: Colors.white,
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    '立即登录',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                  ),
-                ],
+      child: Obx(() {
+        return GestureDetector(
+          onTap: () {
+            if (_userController.user.value.id.isEmpty) {
+              Navigator.pushNamed(context, '/login');
+            }
+          },
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 26,
+                backgroundImage: _userController.user.value.id.isNotEmpty
+                    ? NetworkImage(_userController.user.value.avatar)
+                    : AssetImage('lib/assets/goods_avatar.png'),
+                backgroundColor: Colors.white,
               ),
-            ),
-          ],
-        ),
-      ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      _userController.user.value.id.isNotEmpty
+                          ? _userController.user.value.account
+                          : '立即登录',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 

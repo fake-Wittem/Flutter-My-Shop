@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:my_shop/api/user.dart';
+import 'package:my_shop/stores/UserController.dart';
 import 'package:my_shop/utils/ToastUtils.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,6 +15,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController _phoneController = TextEditingController(); // 账号控制器
   TextEditingController _pwdController = TextEditingController(); // 密码控制器
+  final UserController _userController = Get.find();
 
   // 头部Widget
   Widget _buildHeader() {
@@ -153,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
         'account': _phoneController.text,
         'password': _pwdController.text,
       });
-      print(res);
+      _userController.updateUserInfo(res);
       Toastutils.showToast(context, '登录成功');
       Navigator.pop(context);
     } catch (e) {
