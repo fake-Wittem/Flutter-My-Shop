@@ -14,7 +14,7 @@ class _ProductListState extends State<ProductList> {
   Widget _getChildren(int index) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 229, 229, 229),
+        color: const Color.fromARGB(90, 220, 220, 220),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -62,7 +62,7 @@ class _ProductListState extends State<ProductList> {
                     children: [
                       TextSpan(text: " "),
                       TextSpan(
-                        text: "${widget.recommendList[index].price}",
+                        text: widget.recommendList[index].price,
                         style: TextStyle(
                           decoration: TextDecoration.lineThrough,
                           color: Colors.grey,

@@ -5,6 +5,7 @@ import 'package:my_shop/components/Home/Carousel.dart';
 import 'package:my_shop/components/Home/Category.dart';
 import 'package:my_shop/components/Home/ProductList.dart';
 import 'package:my_shop/components/Home/Recommend.dart';
+import 'package:my_shop/utils/ToastUtils.dart';
 import 'package:my_shop/viewmodels/home.dart';
 
 class HomeView extends StatefulWidget {
@@ -91,54 +92,105 @@ class _HomeViewState extends State<HomeView> {
   }
 
   // 获取轮播图
-  void _getBannerList() async {
+  Future<void> _getBannerList() async {
     _bannerList = await getBannerListAPI();
-    setState(() {});
   }
 
   // 获取分类列表
-  void _getCategoryList() async {
+  Future<void> _getCategoryList() async {
     _categoryItemList = await getCategoryListAPI();
-    setState(() {});
   }
 
   // 获取特惠推荐
-  void _getSpecialOfferList() async {
+  Future<void> _getSpecialOfferList() async {
     _specialOfferResult = await getSpecialOfferListAPI();
-    setState(() {});
   }
 
   // 获取热榜推荐列表
-  void _getInVogueList() async {
+  Future<void> _getInVogueList() async {
     _inVogueResult = await getInVogueListAPI();
-    setState(() {});
   }
 
   // 获取一站式推荐列表
-  void _getOneStopList() async {
+  Future<void> _getOneStopList() async {
     _oneStopResult = await getOneStopListAPI();
-    setState(() {});
   }
 
+  int _page = 1; // 页码
+  bool _isLoading = false; // 当前正在加载下一页
+  bool _hasMore = true; // 是否还有下一页
   // 获取推荐列表
-  void _getRecommendList() async {
-    _recommendList = await getRecommendListAPI({'limit': 10});
+  Future<void> _getRecommendList() async {
+    if (_isLoading || !_hasMore) {
+      return;
+    }
+    _isLoading = true;
+    int requestLimit = _page * 10;
+    _recommendList = await getRecommendListAPI({'limit': requestLimit});
+    _isLoading = false;
+    setState(() {});
+    if (_recommendList.length < requestLimit) {
+      _hasMore = false;
+      return;
+    }
+    _page++;
+  }
+
+  // 注册滚动事件
+  void _registerEvent() {
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >=
+          (_scrollController.position.maxScrollExtent - 50)) {
+        // 加载下一页
+        _getRecommendList();
+      }
+    });
+  }
+
+  // 下拉刷新页面
+  Future<void> _onRefresh() async {
+    _page = 1;
+    _isLoading = false;
+    _hasMore = true;
+    await _getBannerList();
+    await _getCategoryList();
+    await _getSpecialOfferList();
+    await _getInVogueList();
+    await _getOneStopList();
+    await _getRecommendList();
+    Toastutils.showToast(context, '刷新成功');
+    _topPadding = 0;
     setState(() {});
   }
 
   @override
   void initState() {
     super.initState();
-    _getBannerList();
-    _getCategoryList();
-    _getSpecialOfferList();
-    _getInVogueList();
-    _getOneStopList();
-    _getRecommendList();
+    _registerEvent();
+    // 微任务会在build周期完成后再执行
+    Future.microtask(() {
+      _topPadding = 100;
+      setState(() {});
+      _refreshKey.currentState?.show();
+    });
   }
 
+  final ScrollController _scrollController = ScrollController();
+  final GlobalKey<RefreshIndicatorState> _refreshKey = GlobalKey();
+  double _topPadding = 0;
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(slivers: _getScrollChildren());
+    return RefreshIndicator(
+      key: _refreshKey,
+      onRefresh: _onRefresh,
+      child: AnimatedContainer(
+        padding: EdgeInsets.only(top: _topPadding),
+        duration: Duration(milliseconds: 300),
+        child: CustomScrollView(
+          controller: _scrollController,
+          slivers: _getScrollChildren(),
+        ),
+      ),
+    );
   }
 }
