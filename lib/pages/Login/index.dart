@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_shop/api/user.dart';
+import 'package:my_shop/stores/TokenManager.dart';
 import 'package:my_shop/stores/UserController.dart';
 import 'package:my_shop/utils/ToastUtils.dart';
 
@@ -157,6 +158,7 @@ class _LoginPageState extends State<LoginPage> {
         'password': _pwdController.text,
       });
       _userController.updateUserInfo(res);
+      tokenManager.setToken(res.token); // 写入token
       Toastutils.showToast(context, '登录成功');
       Navigator.pop(context);
     } catch (e) {

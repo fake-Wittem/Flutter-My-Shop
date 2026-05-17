@@ -2,6 +2,7 @@
 
 import 'package:dio/dio.dart';
 import 'package:my_shop/constants/index.dart';
+import 'package:my_shop/stores/TokenManager.dart';
 
 class DioRequest {
   final _dio = Dio(); // dio请求对象
@@ -19,8 +20,14 @@ class DioRequest {
   void _addInterceptor() {
     _dio.interceptors.add(
       InterceptorsWrapper(
-        onRequest: (options, handler) {
-          handler.next(options);
+        onRequest: (request, handler) {
+          if (tokenManager.getToken().isNotEmpty) {
+            // 注入token
+            request.headers = {
+              'Authorization': 'Bearer ${tokenManager.getToken()}',
+            };
+          }
+          handler.next(request);
         },
         onResponse: (response, handler) {
           // 1. 处理 HTTP 状态码

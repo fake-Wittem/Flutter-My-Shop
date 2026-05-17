@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:my_shop/api/user.dart';
 import 'package:my_shop/pages/Cart/index.dart';
 import 'package:my_shop/pages/Category/index.dart';
 import 'package:my_shop/pages/Home/index.dart';
 import 'package:my_shop/pages/Mine/index.dart';
+import 'package:my_shop/stores/TokenManager.dart';
+import 'package:my_shop/stores/UserController.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({Key? key}) : super(key: key);
@@ -38,6 +42,8 @@ class _MainPageState extends State<MainPage> {
 
   int _currentIndex = 0;
 
+  final UserController _userController = Get.put(UserController());
+
   // 渲染导航
   List<BottomNavigationBarItem> _getTabBarWidget() {
     return List.generate(_tabList.length, (index) {
@@ -53,6 +59,21 @@ class _MainPageState extends State<MainPage> {
   // 定义切换组件
   List<Widget> _getChildren() {
     return [HomeView(), CategoryView(), CartView(), MineView()];
+  }
+
+  // 初始化用户信息
+  Future<void> _initUser() async {
+    await tokenManager.init(); // 初始化token
+    if (tokenManager.getToken().isNotEmpty) {
+      _userController.updateUserInfo(await getUserInfoAPI());
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // 初始化用户信息
+    _initUser();
   }
 
   @override
